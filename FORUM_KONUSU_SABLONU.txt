@@ -1,0 +1,34 @@
+[CENTER][B][COLOR=#FF007F]★[/COLOR] [COLOR=#DF0FA1]C[/COLOR][COLOR=#BF1EC3]h[/COLOR][COLOR=#9F2DE5]e[/COLOR][COLOR=#7F3CF7]a[/COLOR][COLOR=#5F4BFF]t[/COLOR][COLOR=#485EF4]G[/COLOR][COLOR=#3271EA]r[/COLOR][COLOR=#1B84DF]a[/COLOR][COLOR=#0597D5]d[/COLOR][COLOR=#00AAD0]i[/COLOR][COLOR=#00BDCE]e[/COLOR][COLOR=#00D0CC]n[/COLOR][COLOR=#00E3CA]t[/COLOR] [COLOR=#00F6C8]|[/COLOR] [COLOR=#16F2B5]X[/COLOR][COLOR=#2CEFA2]e[/COLOR][COLOR=#42EB90]n[/COLOR][COLOR=#58E87D]F[/COLOR][COLOR=#6EE46A]o[/COLOR][COLOR=#84E157]r[/COLOR][COLOR=#9ADD45]o[/COLOR] [COLOR=#B0DA32]R[/COLOR][COLOR=#C6D61F]e[/COLOR][COLOR=#DCD30C]n[/COLOR][COLOR=#F2CF00]k[/COLOR][COLOR=#FFBF00]l[/COLOR][COLOR=#FFAF00]i[/COLOR] [COLOR=#FF9F00]Y[/COLOR][COLOR=#FF8F00]a[/COLOR][COLOR=#FF7F00]z[/COLOR][COLOR=#FF6F00]ı[/COLOR] [COLOR=#FF5F00]E[/COLOR][COLOR=#FF4F00]k[/COLOR][COLOR=#FF3F00]l[/COLOR][COLOR=#FF2F00]e[/COLOR][COLOR=#FF1F00]n[/COLOR][COLOR=#FF0F00]t[/COLOR][COLOR=#FF0000]i[/COLOR][COLOR=#FF003F]s[/COLOR][COLOR=#FF007F]i[/COLOR] [COLOR=#FF00BF]★[/COLOR][/B]
+
+[COLOR=#94A3B8]CheatGlobal ve tüm XenForo forumlarında konularınıza, başlıklarınıza ve imzalarınıza rengarenk akıcı gradyan yazılar ekleyin![/COLOR][/CENTER]
+
+[HR][/HR]
+
+[B][COLOR=#00F0FF]✦ Eklenti Hakkında[/COLOR][/B]
+CheatGlobal üzerinde konu açarken veya yorum yazarken başlıklarınızı ve metinlerinizi harf harf veya kelime kelime rengarenk yapabileceğiniz pratik bir Chromium (Chrome, Edge, Brave, Opera) tarayıcı eklentisidir.
+
+[B][COLOR=#00FF87]✦ Öne Çıkan Özellikler:[/COLOR][/B]
+[LIST]
+[*][B]⚡ Anında Editöre Yazdırma:[/B] Editördeki [B]🌈[/B] butonuna basıp popup açıldığında [B]Ctrl + V[/B] ile yapıştırdığınız an otomatik olarak renklenip doğrudan mesaja eklenir!
+[*][B]İki Farklı Geçiş Modu:[/B]
+  • [B]Karakter Bazlı:[/B] Harften harfe pürüzsüz yumuşak renk geçişi (Cyberpunk / Neon efekti)
+  • [B]Kelime Bazlı:[/B] Her kelimeye sırayla farklı renk (İmza ve teşekkür yazıları için ideal)
+[*][B]Popüler Hazır Paletler:[/B] Cyberpunk, CG Vibe, Gökkuşağı, Sunset, Altın/Gold, Neon Mor, Buz & Ateş, Venom.
+[*][B]Seçilen Metni Renklendirme:[/B] Yazı alanında bir metni fareyle seçtiğinizde üzerinde beliren [B]"🌈 Gradyan Yap"[/B] butonuna tıklayarak doğrudan dönüştürebilirsiniz.
+[*][B]XenForo Uyumlu BBCode:[/B] Karakter sınırını doldurmaması için gereksiz boşluk kodları içermez, temiz BBCode üretir.
+[/LIST]
+
+[HR][/HR]
+
+[B][COLOR=#FFCC00]✦ Kurulum Adımları:[/COLOR][/B]
+[LIST=1]
+[*]Chrome / Brave / Edge tarayıcınızda [B]chrome://extensions[/B] adresini açın.
+[*]Sağ üstteki [B]"Geliştirici modu"[/B] anahtarını açın.
+[*]Sol üstteki [B]"Paketlenmemiş öğe yükle"[/B] butonuna tıklayın.
+[*]İndirdiğiniz [B]cheat-gradient[/B] klasörünü seçin.
+[*]Artık CheatGlobal editöründe [B]🌈[/B] ikonunu görebilir ve hemen kullanmaya başlayabilirsiniz!
+[/LIST]
+
+[HR][/HR]
+
+[CENTER][B][COLOR=#9900FF]İyi[/COLOR] [COLOR=#D300B6]Kullanımlar[/COLOR] [COLOR=#FF1D6E]Dileriz[/COLOR] [COLOR=#FF9225]/[/COLOR] [COLOR=#FFA000]CheatGlobal[/COLOR] [COLOR=#FF4900]Ailesine[/COLOR] [COLOR=#928A57]Özel[/COLOR] [COLOR=#00FFCC]Paylaşım[/COLOR][/B][/CENTER]

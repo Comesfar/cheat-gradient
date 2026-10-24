@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CheatGradient - Web Sürümü & Önizleyici</title>
+  <link rel="stylesheet" href="popup/popup.css">
+  <style>
+    body {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0f172a 100%);
+      padding: 24px;
+    }
+    .app-container {
+      width: 480px;
+      background: rgba(21, 24, 33, 0.95);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(168, 85, 247, 0.2);
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="logo-icon">🌈</div>
+        <div class="logo-text">
+          <h1>CheatGradient</h1>
+          <span class="badge">CheatGlobal & XenForo BBCode</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Input Section -->
+    <section class="section input-section">
+      <label for="inputText">Renklendirilecek Metin:</label>
+      <textarea id="inputText" rows="3" placeholder="Metninizi yazın...">İyi Kullanımlar Dileriz / CheatGlobal Ailesi</textarea>
+    </section>
+
+    <!-- Live Preview -->
+    <section class="section preview-section">
+      <div class="section-header">
+        <label>Canlı Önizleme:</label>
+        <span id="charCount" class="char-count">0 karakter</span>
+      </div>
+      <div id="livePreview" class="preview-box"></div>
+    </section>
+
+    <!-- Presets -->
+    <section class="section presets-section">
+      <label>Hazır Renk Paletleri:</label>
+      <div class="presets-grid" id="presetsContainer"></div>
+    </section>
+
+    <!-- Color Stops Controls -->
+    <section class="section colors-section">
+      <div class="section-header">
+        <label>Renk Durakları:</label>
+        <div class="stop-actions">
+          <button type="button" id="addColorBtn" class="btn-sm btn-outline">+ Renk Ekle</button>
+        </div>
+      </div>
+      <div id="colorStopsContainer" class="stops-container"></div>
+    </section>
+
+    <!-- Settings / Modifiers -->
+    <section class="section settings-section">
+      <div class="options-row">
+        <div class="opt-group">
+          <label>Dağılım Tipi:</label>
+          <div class="segmented-control">
+            <button type="button" class="seg-btn active" data-mode="char" id="modeChar">Karakter</button>
+            <button type="button" class="seg-btn" data-mode="word" id="modeWord">Kelime</button>
+          </div>
+        </div>
+
+        <div class="opt-group">
+          <label>Metin Stili:</label>
+          <div class="style-toggles">
+            <button type="button" class="toggle-btn active" id="toggleBold" title="Kalın (Bold)"><b>B</b></button>
+            <button type="button" class="toggle-btn" id="toggleItalic" title="İtalik"><i>I</i></button>
+            <button type="button" class="toggle-btn" id="toggleCenter" title="Ortala">[CENTER]</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <footer class="footer">
+      <div class="btn-group-primary">
+        <button type="button" id="copyBbcodeBtn" class="btn btn-primary" style="flex:1;">
+          <span class="icon">📋</span> XenForo BBCode Kopyala
+        </button>
+      </div>
+      <div class="btn-group-secondary">
+        <button type="button" id="copyHtmlBtn" class="btn btn-ghost btn-sm">
+          HTML Olarak Kopyala
+        </button>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Kopyalandı!</div>
+  </div>
+
+  <script>
+    // Standalone compatible JS
+    const PRESETS = [
+      { name: 'Cyberpunk', colors: ['#ff007f', '#7928ca', '#00f0ff'] },
+      { name: 'CG Vibe', colors: ['#ff2a55', '#ffaa00', '#00ffcc'] },
+      { name: 'Gökkuşağı', colors: ['#ff0055', '#ffaa00', '#00ff66', '#00c3ff', '#a855f7'] },
+      { name: 'Sunset', colors: ['#ff416c', '#ff4b2b'] },
+      { name: 'Altın / Gold', colors: ['#ffd700', '#f59f00', '#e65100'] },
+      { name: 'Neon Mor', colors: ['#d946ef', '#8b5cf6', '#3b82f6'] },
+      { name: 'Buz & Ateş', colors: ['#00f5d4', '#7b2cbf', '#f72585'] },
+      { name: 'Venom', colors: ['#00ff87', '#60efff'] }
+    ];
+
+    let state = {
+      text: 'İyi Kullanımlar Dileriz / CheatGlobal Ailesi',
+      colors: ['#ff007f', '#7928ca', '#00f0ff'],
+      mode: 'char',
+      bold: true,
+      italic: false,
+      center: false
+    };
+
+    const inputText = document.getElementById('inputText');
+    const livePreview = document.getElementById('livePreview');
+    const charCount = document.getElementById('charCount');
+    const presetsContainer = document.getElementById('presetsContainer');
+    const colorStopsContainer = document.getElementById('colorStopsContainer');
+    const addColorBtn = document.getElementById('addColorBtn');
+    const modeCharBtn = document.getElementById('modeChar');
+    const modeWordBtn = document.getElementById('modeWord');
+    const toggleBoldBtn = document.getElementById('toggleBold');
+    const toggleItalicBtn = document.getElementById('toggleItalic');
+    const toggleCenterBtn = document.getElementById('toggleCenter');
+    const copyBbcodeBtn = document.getElementById('copyBbcodeBtn');
+    const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+    const toastEl = document.getElementById('toast');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initPresets();
+      renderColorStops();
+      updatePreview();
+      bindEvents();
+    });
+
+    function initPresets() {
+      presetsContainer.innerHTML = '';
+      PRESETS.forEach((preset) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'preset-btn';
+        btn.textContent = preset.name;
+        btn.style.background = `linear-gradient(90deg, ${preset.colors.join(', ')})`;
+        btn.addEventListener('click', () => {
+          state.colors = [...preset.colors];
+          renderColorStops();
+          updatePreview();
+        });
+        presetsContainer.appendChild(btn);
+      });
+    }
+
+    function renderColorStops() {
+      colorStopsContainer.innerHTML = '';
+      state.colors.forEach((color, index) => {
+        const item = document.createElement('div');
+        item.className = 'color-stop-item';
+
+        const input = document.createElement('input');
+        input.type = 'color';
+        input.value = color;
+        input.addEventListener('input', (e) => {
+          state.colors[index] = e.target.value;
+          updatePreview();
+        });
+        item.appendChild(input);
+
+        if (state.colors.length > 2) {
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'remove-stop-btn';
+          removeBtn.innerHTML = '&#215;';
+          removeBtn.addEventListener('click', () => {
+            state.colors.splice(index, 1);
+            renderColorStops();
+            updatePreview();
+          });
+          item.appendChild(removeBtn);
+        }
+        colorStopsContainer.appendChild(item);
+      });
+    }
+
+    function hexToRgb(hex) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const intVal = parseInt(hex, 16);
+      return { r: (intVal >> 16) & 255, g: (intVal >> 8) & 255, b: intVal & 255 };
+    }
+
+    function rgbToHex(r, g, b) {
+      const toHex = c => Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, '0');
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+
+    function interpolateColors(colorArray, factor) {
+      if (factor <= 0) return colorArray[0];
+      if (factor >= 1) return colorArray[colorArray.length - 1];
+      const segments = colorArray.length - 1;
+      const segment = Math.min(Math.floor(factor * segments), segments - 1);
+      const localFactor = (factor - segment / segments) * segments;
+      const c1 = hexToRgb(colorArray[segment]);
+      const c2 = hexToRgb(colorArray[segment + 1]);
+      return rgbToHex(
+        c1.r + (c2.r - c1.r) * localFactor,
+        c1.g + (c2.g - c1.g) * localFactor,
+        c1.b + (c2.b - c1.b) * localFactor
+      );
+    }
+
+    function generateGradientParts(text, colors, mode) {
+      if (!text) return [];
+      const parts = [];
+
+      if (mode === 'word') {
+        const words = text.split(/(\s+)/);
+        const nonSpaceCount = words.filter(w => !/^\s+$/.test(w) && w.length > 0).length;
+        let wordIndex = 0;
+        words.forEach((chunk) => {
+          if (!chunk) return;
+          if (/^\s+$/.test(chunk)) {
+            parts.push({ text: chunk, color: null, isSpace: true });
+          } else {
+            const factor = nonSpaceCount > 1 ? wordIndex / (nonSpaceCount - 1) : 0;
+            parts.push({ text: chunk, color: interpolateColors(colors, factor), isSpace: false });
+            wordIndex++;
+          }
+        });
+      } else {
+        const chars = Array.from(text);
+        const nonSpaceIndices = [];
+        chars.forEach((c, idx) => {
+          if (!/\s/.test(c)) nonSpaceIndices.push(idx);
+        });
+        const totalNonSpace = nonSpaceIndices.length;
+        let activeNonSpace = 0;
+
+        chars.forEach((c) => {
+          if (/\s/.test(c)) {
+            parts.push({ text: c, color: null, isSpace: true });
+          } else {
+            const factor = totalNonSpace > 1 ? activeNonSpace / (totalNonSpace - 1) : 0;
+            parts.push({ text: c, color: interpolateColors(colors, factor), isSpace: false });
+            activeNonSpace++;
+          }
+        });
+      }
+      return parts;
+    }
+
+    function buildBBCode(parts) {
+      let bbcode = '';
+      parts.forEach((p) => {
+        if (p.isSpace || !p.color) {
+          bbcode += p.text;
+        } else {
+          bbcode += `[COLOR=${p.color.toUpperCase()}]${p.text}[/COLOR]`;
+        }
+      });
+      if (state.bold) bbcode = `[B]${bbcode}[/B]`;
+      if (state.italic) bbcode = `[I]${bbcode}[/I]`;
+      if (state.center) bbcode = `[CENTER]${bbcode}[/CENTER]`;
+      return bbcode;
+    }
+
+    function buildHTML(parts) {
+      let html = '';
+      parts.forEach((p) => {
+        if (p.isSpace || !p.color) {
+          html += p.text.replace(/\n/g, '<br>');
+        } else {
+          html += `<span style="color: ${p.color};">${p.text}</span>`;
+        }
+      });
+      if (state.bold) html = `<b>${html}</b>`;
+      if (state.italic) html = `<i>${html}</i>`;
+      if (state.center) html = `<div style="text-align: center;">${html}</div>`;
+      return html;
+    }
+
+    function updatePreview() {
+      state.text = inputText.value;
+      charCount.textContent = `${state.text.length} karakter`;
+      if (!state.text.trim()) {
+        livePreview.innerHTML = '<span style="color: #64748b;">(Önizleme burada görünecektir)</span>';
+        return;
+      }
+      const parts = generateGradientParts(state.text, state.colors, state.mode);
+      livePreview.innerHTML = buildHTML(parts);
+      livePreview.style.fontWeight = state.bold ? 'bold' : 'normal';
+      livePreview.style.fontStyle = state.italic ? 'italic' : 'normal';
+      livePreview.style.textAlign = state.center ? 'center' : 'left';
+    }
+
+    function showToast(message = 'Kopyalandı!') {
+      toastEl.textContent = message;
+      toastEl.classList.add('show');
+      setTimeout(() => toastEl.classList.remove('show'), 2200);
+    }
+
+    function bindEvents() {
+      inputText.addEventListener('input', updatePreview);
+      addColorBtn.addEventListener('click', () => {
+        if (state.colors.length >= 7) return;
+        state.colors.push('#ffffff');
+        renderColorStops();
+        updatePreview();
+      });
+      modeCharBtn.addEventListener('click', () => {
+        state.mode = 'char';
+        modeCharBtn.classList.add('active');
+        modeWordBtn.classList.remove('active');
+        updatePreview();
+      });
+      modeWordBtn.addEventListener('click', () => {
+        state.mode = 'word';
+        modeWordBtn.classList.add('active');
+        modeCharBtn.classList.remove('active');
+        updatePreview();
+      });
+      toggleBoldBtn.addEventListener('click', () => {
+        state.bold = !state.bold;
+        toggleBoldBtn.classList.toggle('active', state.bold);
+        updatePreview();
+      });
+      toggleItalicBtn.addEventListener('click', () => {
+        state.italic = !state.italic;
+        toggleItalicBtn.classList.toggle('active', state.italic);
+        updatePreview();
+      });
+      toggleCenterBtn.addEventListener('click', () => {
+        state.center = !state.center;
+        toggleCenterBtn.classList.toggle('active', state.center);
+        updatePreview();
+      });
+      copyBbcodeBtn.addEventListener('click', () => {
+        const parts = generateGradientParts(state.text, state.colors, state.mode);
+        const bbcode = buildBBCode(parts);
+        navigator.clipboard.writeText(bbcode).then(() => showToast('BBCode Panoya Kopyalandı! 📋'));
+      });
+      copyHtmlBtn.addEventListener('click', () => {
+        const parts = generateGradientParts(state.text, state.colors, state.mode);
+        const html = buildHTML(parts);
+        navigator.clipboard.writeText(html).then(() => showToast('HTML Kopyalandı!'));
+      });
+    }
+  </script>
+</body>
+</html>

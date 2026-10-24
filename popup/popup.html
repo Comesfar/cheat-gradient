@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CheatGradient</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="logo-icon">🌈</div>
+        <div class="logo-text">
+          <h1>CheatGradient</h1>
+          <span class="badge">CheatGlobal & XenForo</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Input Section -->
+    <section class="section input-section">
+      <label for="inputText">Metniniz:</label>
+      <textarea id="inputText" rows="3" placeholder="Renklendirmek istediğiniz metni buraya yazın...">İyi Kullanımlar Dileriz / CheatGlobal Ailesi</textarea>
+    </section>
+
+    <!-- Live Preview -->
+    <section class="section preview-section">
+      <div class="section-header">
+        <label>Canlı Önizleme:</label>
+        <span id="charCount" class="char-count">0 karakter</span>
+      </div>
+      <div id="livePreview" class="preview-box">
+        <!-- Rendered live -->
+      </div>
+    </section>
+
+    <!-- Presets -->
+    <section class="section presets-section">
+      <label>Hazır Renk Paletleri:</label>
+      <div class="presets-grid" id="presetsContainer">
+        <!-- Populated via JS -->
+      </div>
+    </section>
+
+    <!-- Color Stops Controls -->
+    <section class="section colors-section">
+      <div class="section-header">
+        <label>Gradyan Renkleri (Duraklar):</label>
+        <div class="stop-actions">
+          <button type="button" id="addColorBtn" class="btn-sm btn-outline" title="Yeni Renk Ekle">+ Renk Ekle</button>
+        </div>
+      </div>
+      <div id="colorStopsContainer" class="stops-container">
+        <!-- Color inputs populated dynamically -->
+      </div>
+    </section>
+
+    <!-- Settings / Modifiers -->
+    <section class="section settings-section">
+      <div class="options-row">
+        <div class="opt-group">
+          <label>Dağılım Tipi:</label>
+          <div class="segmented-control">
+            <button type="button" class="seg-btn active" data-mode="char" id="modeChar">Karakter</button>
+            <button type="button" class="seg-btn" data-mode="word" id="modeWord">Kelime</button>
+          </div>
+        </div>
+
+        <div class="opt-group">
+          <label>Metin Stili:</label>
+          <div class="style-toggles">
+            <button type="button" class="toggle-btn active" id="toggleBold" title="Kalın (Bold)"><b>B</b></button>
+            <button type="button" class="toggle-btn" id="toggleItalic" title="İtalik"><i>I</i></button>
+            <button type="button" class="toggle-btn" id="toggleCenter" title="Ortala">[CENTER]</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <footer class="footer">
+      <div class="btn-group-primary">
+        <button type="button" id="copyBbcodeBtn" class="btn btn-primary">
+          <span class="icon">📋</span> BBCode Kopyala
+        </button>
+        <button type="button" id="insertToEditorBtn" class="btn btn-accent" title="Açık olan CheatGlobal/XenForo konusuna doğrudan ekler">
+          <span class="icon">⚡</span> Editöre Ekle
+        </button>
+      </div>
+
+      <div class="btn-group-secondary">
+        <button type="button" id="copyHtmlBtn" class="btn btn-ghost btn-sm">
+          HTML Kopyala
+        </button>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Kopyalandı!</div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

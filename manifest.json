@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "CheatGradient - XenForo Renkli Yazı Eklentisi",
+  "short_name": "CheatGradient",
+  "version": "1.0.0",
+  "description": "CheatGlobal ve tüm XenForo forumlarında rengarenk, gradyanlı ve gökkuşağı efektli yazılar oluşturun.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "contextMenus",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "*://cheatglobal.com/*",
+    "*://*.cheatglobal.com/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "CheatGradient - Renkli Yazı Oluşturucu"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background/service_worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://cheatglobal.com/*",
+        "*://*.cheatglobal.com/*",
+        "https://*/*"
+      ],
+      "js": ["content/content.js"],
+      "css": ["content/content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
